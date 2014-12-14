@@ -25,7 +25,6 @@ public class Db {
     public String[] configFileData;
     Connection c = null;
     Statement stmt = null;
-    private Object connection;
     
 /////////////////////////////
 //Рабочие методы
