@@ -12,7 +12,7 @@ public class Otchet {
      Db db = new Db();
      DateVariator dv = new DateVariator();
      
-
+     db.configFile();
      db.dbFileDel();
      db.createSQLiteTables();
      db.cloneParadoxAddressDataToList();
