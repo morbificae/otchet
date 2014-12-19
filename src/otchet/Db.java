@@ -149,10 +149,10 @@ public class Db {
             c.setAutoCommit(false);
             System.out.println("Вставляем показания из памяти в SQLite БД:");
             stmt = c.createStatement();
-            int y=1;
+            int y=0;
             for (int i=0; i<=Data.size()-2; ++i) {
                 String sql = "INSERT INTO data (id,ivb,system,date,time,q1,q2,v1,v2,g1,g2,t1,t2,t3,tw) " +
-                        "VALUES('"+(y-1)+"', '"+String.valueOf(Data.get(i+1))+"', '"+Data.get(i+2)+"', '"+Data.get(i+3)+"', '"
+                        "VALUES('"+(y)+"', '"+String.valueOf(Data.get(i+1))+"', '"+Data.get(i+2)+"', '"+Data.get(i+3)+"', '"
                                +Data.get(i+4)+"', '"+Data.get(i + 5)+"', '"+Data.get(i+6)+"', '"+Data.get(i+7)+"', '"
                                +Data.get(i+8)+"', '"+Data.get(i + 9)+"', '"+Data.get(i+10)+"', '"+Data.get(i+11)+"', '"
                                +Data.get(i+12)+"', '"+Data.get(i+13)+"', '"+Data.get(i+14)+"' );";
@@ -223,7 +223,7 @@ public class Db {
             System.out.println("Создание отчёта в БД SQLite");
             stmt = c.createStatement();
             String sql_1 = "CREATE TABLE otchet " +
-                    "(id INT PRIMARY KEY NOT NULL," +
+                    "(id             TEXT," +
                     " nro            TEXT, " +
                     " nrg            TEXT, " +
                     " ivb            TEXT, " +
@@ -247,6 +247,7 @@ public class Db {
                     " t2             TEXT, " +
                     " t3             TEXT, " +
                     " tw             TEXT)";
+            System.out.println("Создание отчёта в БД SQLite2");
             stmt.executeUpdate(sql_1);
             String sql_2 =("INSERT INTO otchet SELECT data.[id], objects.[nro], objects.[nrg], data.[ivb], ")+
                         ("objects.[street], objects.[dom], objects.[korpus], objects.[jeu], objects.[Marka_pribor], objects.[ugv], objects.[uot], ")+
