@@ -214,13 +214,13 @@ public class Db {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Таблица создалася");
+        System.out.println("Таблица создана");
     }                     // Создание таблиц Objects(Приборы) Data(Показания) в базе SQLite
     void createSQLiteOtchet(String last, String current) {
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:kip.db");
-            System.out.println("Создание отчёта в БД SQLite");
+            System.out.println("Создание таблицы отчёта в БД SQLite");
             stmt = c.createStatement();
             String sql_1 = "CREATE TABLE otchet " +
                     "(id             TEXT," +
@@ -247,7 +247,7 @@ public class Db {
                     " t2             TEXT, " +
                     " t3             TEXT, " +
                     " tw             TEXT)";
-            System.out.println("Создание отчёта в БД SQLite2");
+            System.out.println("Создание отчёта в БД SQLite");
             stmt.executeUpdate(sql_1);
             String sql_2 =("INSERT INTO otchet SELECT data.[id], objects.[nro], objects.[nrg], data.[ivb], ")+
                         ("objects.[street], objects.[dom], objects.[korpus], objects.[jeu], objects.[Marka_pribor], objects.[ugv], objects.[uot], ")+
