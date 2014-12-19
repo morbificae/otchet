@@ -1,14 +1,18 @@
 package otchet;
 
+import java.io.BufferedReader;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -22,16 +26,22 @@ public class Db {
     public List<String> AddressData = new ArrayList<>();
     public List<String> Data = new ArrayList<>();
     public List<String> Otchet = new ArrayList<>();
-    public String[] configFileData;
+    public List<String> cfgFileData = new ArrayList<String>();
+    public String basedir;
     Connection c = null;
     Statement stmt = null;
     
+    
 /////////////////////////////
 //Рабочие методы
+    void dbFileDel(){
+        File file = new File("kip.db");
+        file.delete();
+    }
     void cloneParadoxAddressDataToList(){
         try {
             Class.forName("com.googlecode.paradox.Driver");
-            c = DriverManager.getConnection("jdbc:paradox:base");
+            c = DriverManager.getConnection("jdbc:paradox:"+basedir);
             c.setAutoCommit(false);
             System.out.println("Копируем объекты в память: ");
             stmt = c.createStatement();
@@ -70,7 +80,7 @@ public class Db {
     void cloneParadoxDataToList(){
         try {
             Class.forName("com.googlecode.paradox.Driver");
-            c = DriverManager.getConnection("jdbc:paradox:base");
+            c = DriverManager.getConnection("jdbc:paradox:"+basedir);
             c.setAutoCommit(false);
             System.out.println("Копируем показания в память: ");
             stmt = c.createStatement();
@@ -264,13 +274,9 @@ public class Db {
         }
         System.out.println("Таблица отчёта создана в БД SQLite");
     }                     // Создание таблицы Отчёты из выборки в базе SQLite
-    void dbFileDel(){
-        File file = new File("kip.db");
-        file.delete();
-    }
 //////////////////////////////
 //методы в тестовом режиме
-    void dbConfigFileCreate() {
+    void configFileCreate() {
         try {
             File file = new File("config.cfg");
             file.createNewFile();
@@ -279,6 +285,21 @@ public class Db {
             System.exit(0);
         }
   }
+    String configFile() throws UnsupportedEncodingException, FileNotFoundException{
+      BufferedReader input = null;
+      String fileName = "config.cfg";
+      input = new BufferedReader(new FileReader(fileName));
+      try {
+         String tmp;
+         while ((tmp = input.readLine()) != null)
+            cfgFileData.add(tmp);
+      } catch (IOException e) {}
+ 
+      String[] s = (String[])cfgFileData.toArray(new String[0]);
+      basedir = s[0];
+      return s[0];
+      //}
+   }    
     void dbExcelCreate() throws FileNotFoundException, IOException, SQLException, ClassNotFoundException, ParseException{
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection("jdbc:sqlite:kip.db");
