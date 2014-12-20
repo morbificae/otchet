@@ -138,7 +138,7 @@ public class Db {
             c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
                                    "user=morbi&password=morbi");
             c.setAutoCommit(false);
-            System.out.println("Вставляем объекты из памяти в SQLite БД:");
+            System.out.println("Вставляем объекты из памяти в MySQL БД:");
             stmt = c.createStatement();
             int y=1;
             for (int i=0; i<=AddressData.size()-2; ++i) {
@@ -157,7 +157,7 @@ public class Db {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Вставка объектов в SQLite БД завершена.");
+        System.out.println("Вставка объектов в MySQLБД завершена.");
     }         // Копирование таблицы с описанием приборов из временного массива в базу SQLite
     void cloneDataListToSQLiteObjects(){
         try {
@@ -169,7 +169,7 @@ public class Db {
             c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
                                    "user=morbi&password=morbi");
             c.setAutoCommit(false);
-            System.out.println("Вставляем показания из памяти в SQLite БД:");
+            System.out.println("Вставляем показания из памяти в MySQL БД:");
             stmt = c.createStatement();
             int y=0;
             for (int i=0; i<=Data.size()-2; ++i) {
@@ -190,7 +190,7 @@ public class Db {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Показания записаны в SQLite БД.");
+        System.out.println("Показания записаны в MySQL БД.");
     }            // Копирование таблицы с показаниями приборов из временного массива в базу SQLite
     void createSQLiteTables() {
         try {
@@ -245,9 +245,14 @@ public class Db {
     }                     // Создание таблиц Objects(Приборы) Data(Показания) в базе SQLite
     void createSQLiteOtchet(String last, String current) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:kip.db");
-            System.out.println("Создание таблицы отчёта в БД SQLite");
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
+                                   "user=morbi&password=morbi");
+            System.out.println("Создание таблицы отчёта в БД MySQL");
             stmt = c.createStatement();
             String sql_1 = "CREATE TABLE otchet " +
                     "(id             TEXT," +
@@ -318,8 +323,13 @@ public class Db {
       //}
    }    
     void dbExcelCreate() throws FileNotFoundException, IOException, SQLException, ClassNotFoundException, ParseException{
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection("jdbc:sqlite:kip.db");
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
+                                   "user=morbi&password=morbi");
         System.out.println("Создаём отчёт: ");
         stmt = c.createStatement();
         String sql =("SELECT * FROM otchet"); 
