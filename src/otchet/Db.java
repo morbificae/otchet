@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -128,8 +130,13 @@ public class Db {
     }                  // Копирование таблицы с показаниями приборов из базы Paradox во временный массив
     void cloneAddressDataToSQLiteObjects(){
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:kip.db");
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
+                                   "user=morbi&password=morbi");
             c.setAutoCommit(false);
             System.out.println("Вставляем объекты из памяти в SQLite БД:");
             stmt = c.createStatement();
@@ -154,8 +161,13 @@ public class Db {
     }         // Копирование таблицы с описанием приборов из временного массива в базу SQLite
     void cloneDataListToSQLiteObjects(){
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:kip.db");
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
+                                   "user=morbi&password=morbi");
             c.setAutoCommit(false);
             System.out.println("Вставляем показания из памяти в SQLite БД:");
             stmt = c.createStatement();
@@ -182,8 +194,13 @@ public class Db {
     }            // Копирование таблицы с показаниями приборов из временного массива в базу SQLite
     void createSQLiteTables() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:kip.db");
+            try {
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            c = DriverManager.getConnection("jdbc:mysql://localhost/kip?" +
+                                   "user=morbi&password=morbi");
             System.out.println("Create началось заебись");
 
             stmt = c.createStatement();
