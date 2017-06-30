@@ -19,7 +19,7 @@ public class Otchet {
      db.cloneAddressDataToSQLiteObjects();
      db.cloneParadoxDataToList();
      db.cloneDataListToSQLiteObjects();
-     db.createSQLiteOtchet(dv.prevPrevMonthLastDayData(), dv.prevMonthLastDayData());
-     db.dbExcelCreate(); 
+     //db.createSQLiteOtchet(dv.prevPrevMonthLastDayData(), dv.prevMonthLastDayData());
+     //db.dbExcelCreate();
     }
 }

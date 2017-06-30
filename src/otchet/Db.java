@@ -40,16 +40,26 @@ public class Db {
                     String nro  = new String(String.valueOf(rs.getString("Num_REG_OT")).getBytes("ISO-8859-1"), "cp1251");
                     String nrg  = new String(String.valueOf(rs.getString("Num_REG_GVS")).getBytes("ISO-8859-1"), "cp1251");
                     String ni   = new String(String.valueOf(rs.getString("Num_IVB")).getBytes("ISO-8859-1"), "cp1251");
+                    String tsp1 = new String(String.valueOf(rs.getString("Num_TSP1")).getBytes("ISO-8859-1"), "cp1251");
+                    String tsp2 = new String(String.valueOf(rs.getString("Num_TSP2")).getBytes("ISO-8859-1"), "cp1251");
+                    String tsp3 = new String(String.valueOf(rs.getString("Num_TSP3")).getBytes("ISO-8859-1"), "cp1251");
+                    String tsp4 = new String(String.valueOf(rs.getString("Num_TSP4")).getBytes("ISO-8859-1"), "cp1251");
+                    String tsp5 = new String(String.valueOf(rs.getString("Num_TSP5")).getBytes("ISO-8859-1"), "cp1251");
                     String ad   = new String(String.valueOf(rs.getString("Adres_Doma")).getBytes("ISO-8859-1"), "cp1251");
                     String dm   = new String(String.valueOf(rs.getString("Num_Doma")).getBytes("ISO-8859-1"), "cp1251");
                     String kp   = new String(String.valueOf(rs.getString("Num_korp")).getBytes("ISO-8859-1"), "cp1251");
                     String ju   = new String(String.valueOf(rs.getString("Num_Jeu")).getBytes("ISO-8859-1"), "cp1251");
                     String mp   = new String(String.valueOf(rs.getString("Marka_Pribor")).getBytes("ISO-8859-1"), "cp1251");
-                    String ugv   = new String(String.valueOf(rs.getString("Data_Post_Uch_GVS")).getBytes("ISO-8859-1"), "cp1251");
-                    String uot   = new String(String.valueOf(rs.getString("Data_Sn_Uch_OT")).getBytes("ISO-8859-1"), "cp1251");
+                    String ugv  = new String(String.valueOf(rs.getString("Data_Post_Uch_GVS")).getBytes("ISO-8859-1"), "cp1251");
+                    String uot  = new String(String.valueOf(rs.getString("Data_Sn_Uch_OT")).getBytes("ISO-8859-1"), "cp1251");
                     AddressData.add(nro);
                     AddressData.add(nrg);
                     AddressData.add(ni);
+                    AddressData.add(tsp1);
+                    AddressData.add(tsp2);
+                    AddressData.add(tsp3);
+                    AddressData.add(tsp4);
+                    AddressData.add(tsp5);
                     AddressData.add(ad);
                     AddressData.add(dm);
                     AddressData.add(kp);
@@ -125,18 +135,33 @@ public class Db {
             stmt = c.createStatement();
             int y=1;
             for (int i=0; i<=AddressData.size()-2; ++i) {
-                String sql = "INSERT INTO objects (id,nro,nrg,ivb,street,dom,korpus,jeu,Marka_Pribor,ugv,uot) " +
-                        "VALUES("+(y-1)+", '"+AddressData.get(i)+"', '"+AddressData.get(i+1)+"', '"+AddressData.get(i+2)+"', '"+AddressData.get(i+3)+"', '"
-                                         +AddressData.get(i+4)+"', '"+AddressData.get(i+5)+"', '"+AddressData.get(i+6)+"', '"+AddressData.get(i+7)+"', '"+AddressData.get(i+8)+"', '"+AddressData.get(i+9)+"' );";
+                String sql =
+                        "INSERT INTO objects (id,nro,nrg,ivb,tsp1,tsp2,tsp3,tsp4,tsp5,street,dom,korpus,jeu,Marka_Pribor,ugv,uot) " +
+                        "VALUES("+(y-1)+"," +
+                        "'"+AddressData.get(i)   +"'," +
+                        "'"+AddressData.get(i+1) +"'," +
+                        "'"+AddressData.get(i+2) +"'," +
+                        "'"+AddressData.get(i+3) +"'," +
+                        "'"+AddressData.get(i+4) +"'," +
+                        "'"+AddressData.get(i+5) +"'," +
+                        "'"+AddressData.get(i+6) +"'," +
+                        "'"+AddressData.get(i+7) +"'," +
+                        "'"+AddressData.get(i+8) +"'," +
+                        "'"+AddressData.get(i+9) +"'," +
+                        "'"+AddressData.get(i+10)+"'," +
+                        "'"+AddressData.get(i+11)+"'," +
+                        "'"+AddressData.get(i+12)+"'," +
+                        "'"+AddressData.get(i+13)+"'," +
+                        "'"+AddressData.get(i+14)+"')";
                         stmt.executeUpdate(sql);
-                        i=i+9;
+                        i=i+14;
                         y++;
             }
 
             stmt.close();
             c.commit();
             c.close();
-        } catch ( ClassNotFoundException | SQLException e ) {
+        } catch ( ClassNotFoundException | SQLException e) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
             System.exit(0);
         }
@@ -178,12 +203,17 @@ public class Db {
 
             stmt = c.createStatement();
             String sql = "CREATE TABLE objects " +
-                    "(id INT PRIMARY KEY     NOT NULL," +
-                    " nro            TEXT    NOT NULL, " +
-                    " nrg            TEXT    NOT NULL, " +
-                    " ivb            TEXT    NOT NULL, " +
-                    " street         TEXT    NOT NULL, " +
-                    " dom            TEXT     NOT NULL, " +
+                    "(id INT PRIMARY KEY  NOT NULL," +
+                    " nro            TEXT, " +
+                    " nrg            TEXT, " +
+                    " ivb            TEXT, " +
+                    " tsp1           TEXT, " +
+                    " tsp2           TEXT, " +
+                    " tsp3           TEXT, " +
+                    " tsp4           TEXT, " +
+                    " tsp5           TEXT, " +
+                    " street         TEXT, " +
+                    " dom            TEXT, " +
                     " korpus         TEXT, " +
                     " jeu            TEXT, " +                    
                     " Marka_Pribor   TEXT, " +
@@ -294,7 +324,7 @@ public class Db {
         //создание таблицы "Отчёт"
         Sheet sheet = wb.createSheet("Отчёт");  
         //создание объекта ROW(строка)
-        Row row = sheet.createRow((int)0);
+        Row row = sheet.createRow(0);
         sheet.createFreezePane( 0, 1, 0, 1 );
         //создание объекта CELL(ячейка)
         row.createCell(0).setCellValue("№"); row.createCell(1).setCellValue("№ ОТ");row.createCell(2).setCellValue("№ ГВ");row.createCell(3).setCellValue("ИВБ");

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="otchet">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/paradoxdriver-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sqlite-jdbc-3.8.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/poi-3.10.1-20140818.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jcalendar-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
